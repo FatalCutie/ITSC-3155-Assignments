@@ -91,7 +91,7 @@ class SandwichMachine:
         if coins >= cost:
             return True
         else:
-            print("ERROR, INSUFFICIENT FUNDS")
+            print(f"ERROR, INSUFFICIENT FUNDS ${abs(coins - cost)}")
             return False
 
     def make_sandwich(self, sandwich_size, order_ingredients):
@@ -119,7 +119,7 @@ machine = SandwichMachine(resources)  # initilizing
 
 while True:
     # begin machine
-    print("What can I get for ya? (small/medium/large/report)")
+    print("What can I get for ya? (small/medium/large/report/q)")
     customer = input(">")
 
     if customer == "report":
@@ -134,19 +134,32 @@ while True:
             else:
                 print("Not enough ingredients!")
                 continue
-
         else:  # if unable
             continue  # returns error message in method
 
     if customer == "medium":  # small sandwich
         cash = machine.process_coins()  # get money for transaction
-        if machine.transaction_result(cash, small_recipes["cost"]):  # if able to pay
-            print(f'Here is your change! ({cash - small_recipes["cost"]})')  # returns change
-            if machine.check_resources(small_recipes["ingredients"]):
-                machine.make_sandwich("small", small_recipes["ingredients"])
+        if machine.transaction_result(cash, med_recipes["cost"]):  # if able to pay
+            print(f'Here is your change! ({cash - med_recipes["cost"]})')  # returns change
+            if machine.check_resources(med_recipes["ingredients"]):
+                machine.make_sandwich("small", med_recipes["ingredients"])
             else:
                 print("Not enough ingredients!")
                 continue
-
         else:  # if unable
             continue  # returns error message in method
+
+    if customer == "large":  # small sandwich
+        cash = machine.process_coins()  # get money for transaction
+        if machine.transaction_result(cash, large_recipes["cost"]):  # if able to pay
+            print(f'Here is your change! ({cash - large_recipes["cost"]})')  # returns change
+            if machine.check_resources(large_recipes["ingredients"]):
+                machine.make_sandwich("small", large_recipes["ingredients"])
+            else:
+                print("Not enough ingredients!")
+                continue
+        else:  # if unable
+            continue  # returns error message in method
+
+    if customer == "q":
+        break
