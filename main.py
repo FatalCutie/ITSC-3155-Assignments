@@ -48,12 +48,9 @@ class SandwichMachine:
         # get resources
         # compare to ingredients
         # return true false
-        if self.machine_resources["bread"] < ingredients["bread"]:
-            return False
-        if resources["ham"] < ingredients["ham"]:
-            return False
-        if resources["cheese"] < ingredients["cheese"]:
-            return False
+        for item in ingredients:
+            if self.machine_resources[item] < ingredients[item]:
+                return False
         else:
             return True
 
@@ -64,25 +61,34 @@ class SandwichMachine:
            Hint: include input() function here, e.g. input("how many quarters?: ")"""
         # I spelled Received wrong 3 unique ways writing this method
         # Figured it was worth a mention
-        dollar = input("How many dollars are you inserting?")  # asks for money
-        dollar = int(dollar)  # turns answer into a number for calculations
-        # print(f"Received {dollar} dollars!")  # returns number to make sure its working
+        while True:
+            try:  # is there a cleaner way to do this?
+                print("How many dollars are you inserting?")  # asks for money
+                dollar = input(">") # awaits input
+                dollar = int(dollar)  # turns answer into a number for calculations
+                # print(f"Received {dollar} dollars!")  # debug text
 
-        hdollar = input("How many half dollars are you inserting?")
-        hdollar = int(hdollar)
-        # print(f"Received {hdollar} half dollars!")
+                print("How many half dollars are you inserting?")
+                hdollar = input(">")
+                hdollar = int(hdollar)
+                # print(f"Received {hdollar} half dollars!")
 
-        quarter = input("How many quarters are you inserting?")
-        quarter = int(quarter)
-        # print(f"Received {quarter} quarters!")
+                print("How many quarters are you inserting?")
+                quarter = input(">")
+                quarter = int(quarter)
+                # print(f"Received {quarter} quarters!")
 
-        nickels = input("How many Nickels are you inserting?")
-        nickels = int(nickels)
-        # print(f"Received {nickels} Nickels!")
+                print("How many Nickels are you inserting?")
+                nickels = input(">")
+                nickels = int(nickels)
+                # print(f"Received {nickels} Nickels!")
 
-        total_money = dollar + hdollar * .5 + quarter * .25 + nickels * .05
-        print(f"You inserted ${total_money}!")
-        return total_money
+                total_money = dollar + hdollar * .5 + quarter * .25 + nickels * .05
+                print(f"You inserted ${total_money}!")
+                return total_money
+            except ValueError:
+                print("Oops! I didn't quite understand that!")
+                continue
 
     def transaction_result(self, coins, cost):
         """Return True when the payment is accepted, or False if money is insufficient.
@@ -99,8 +105,9 @@ class SandwichMachine:
            Hint: no output"""
         for item in order_ingredients:
             resources[item] -= order_ingredients[item]
-        # print(f"{sandwich_size} sandwich made!")
+        print(f"{sandwich_size} sandwich made!") # debug message
         print("Enjoy!")
+        print()  # buffer line to increase terminal readability
 
     def report_stock(self):
         print(f"{recipes[resources]}")
@@ -109,7 +116,7 @@ class SandwichMachine:
 ### Make an instance of SandwichMachine class and write the rest of the codes ###
 # no, shut up
 
-print("Welcome to Josh's EPIC Sandwich Shop!")
+print("Welcome to Josh's EPIC Sandwich Shop!") # welcome message
 
 # declaring recipes to make code more readable
 small_recipes = recipes["small"]
@@ -123,46 +130,46 @@ while True:
     print("What can I get for ya? (small/medium/large/report/q)")
     customer = input(">")
 
-    if customer == "report":
-        print(f"{resources}")  # prints resources
+    match customer:
+        case "report":
+            print(f"{resources}")  # prints resources
 
-    if customer == "small":  # small sandwich
-        if machine.check_resources(small_recipes["ingredients"]): # if we have the resources
-            cash = machine.process_coins()  # get money for transaction
-            if machine.transaction_result(cash, small_recipes["cost"]): # check to make sure you have enough money
-                print(f'Here is your change! (${cash - small_recipes["cost"]})')
-                machine.make_sandwich(customer, small_recipes["ingredients"])
-            else:  # if unable
-                continue  # returns error message in method
-        else:
-            print("Not enough ingredients!")
-            continue
+        case "small":  # small sandwich
+            if machine.check_resources(small_recipes["ingredients"]): # if we have the resources
+                cash = machine.process_coins()  # get money for transaction
+                if machine.transaction_result(cash, small_recipes["cost"]): # check to make sure you have enough money
+                    print(f'Here is your change! (${cash - small_recipes["cost"]})')
+                    machine.make_sandwich(customer, small_recipes["ingredients"])
+                else:  # if unable
+                    continue  # returns error message in method
+            else:
+                print("Not enough ingredients!")
+                continue
 
+        case "medium":  # medium sandwich
+            if machine.check_resources(med_recipes["ingredients"]): # if we have the resources
+                cash = machine.process_coins()  # get money for transaction
+                if machine.transaction_result(cash, med_recipes["cost"]): # check to make sure you have enough money
+                    print(f'Here is your change! (${cash - med_recipes["cost"]})')
+                    machine.make_sandwich(customer, med_recipes["ingredients"])
+                else:  # if unable
+                    continue  # returns error message in method
+            else:
+                print("Not enough ingredients!")
 
-    if customer == "medium":  # small sandwich
-        if machine.check_resources(med_recipes["ingredients"]): # if we have the resources
-            cash = machine.process_coins()  # get money for transaction
-            if machine.transaction_result(cash, med_recipes["cost"]): # check to make sure you have enough money
-                print(f'Here is your change! (${cash - med_recipes["cost"]})')
-                machine.make_sandwich(customer, med_recipes["ingredients"])
-            else:  # if unable
-                continue  # returns error message in method
-        else:
-            print("Not enough ingredients!")
+        case "large":  # large sandwich
+            if machine.check_resources(large_recipes["ingredients"]): # if we have the resources
+                cash = machine.process_coins()  # get money for transaction
+                if machine.transaction_result(cash, large_recipes["cost"]): # check to make sure you have enough money
+                    print(f'Here is your change! (${cash - large_recipes["cost"]})')
+                    machine.make_sandwich(customer, large_recipes["ingredients"])
+                else:  # if unable
+                    continue  # returns error message in method
+            else:
+                print("Not enough ingredients!")
 
+        case "q":
+            print("See you again soon!")
+            break
 
-    if customer == "large":  # small sandwich
-        if machine.check_resources(large_recipes["ingredients"]): # if we have the resources
-            cash = machine.process_coins()  # get money for transaction
-            if machine.transaction_result(cash, large_recipes["cost"]): # check to make sure you have enough money
-                print(f'Here is your change! (${cash - large_recipes["cost"]})')
-                machine.make_sandwich(customer, large_recipes["ingredients"])
-            else:  # if unable
-                continue  # returns error message in method
-        else:
-            print("Not enough ingredients!")
-
-
-    if customer == "q":
-        print("See you again soon!")
-        break
+# To Do, Figure out how to say out of xyz, try catch all options, idk
