@@ -171,5 +171,3 @@ while True:
         case "q":
             print("See you again soon!")
             break
-
-# To Do, Figure out how to say out of xyz, try catch all options, idk
