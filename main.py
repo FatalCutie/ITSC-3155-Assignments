@@ -50,6 +50,8 @@ class SandwichMachine:
         # return true false
         for item in ingredients:
             if self.machine_resources[item] < ingredients[item]:
+                print(f"Sorry! We don't have enough {item}!")
+                print()  # buffer line for readability
                 return False
         else:
             return True
@@ -78,7 +80,7 @@ class SandwichMachine:
                 quarter = int(quarter)
                 # print(f"Received {quarter} quarters!")
 
-                print("How many Nickels are you inserting?")
+                print("How many nickels are you inserting?")
                 nickels = input(">")
                 nickels = int(nickels)
                 # print(f"Received {nickels} Nickels!")
@@ -142,9 +144,6 @@ while True:
                     machine.make_sandwich(customer, small_recipes["ingredients"])
                 else:  # if unable
                     continue  # returns error message in method
-            else:
-                print("Not enough ingredients!")
-                continue
 
         case "medium":  # medium sandwich
             if machine.check_resources(med_recipes["ingredients"]): # if we have the resources
@@ -154,8 +153,6 @@ while True:
                     machine.make_sandwich(customer, med_recipes["ingredients"])
                 else:  # if unable
                     continue  # returns error message in method
-            else:
-                print("Not enough ingredients!")
 
         case "large":  # large sandwich
             if machine.check_resources(large_recipes["ingredients"]): # if we have the resources
@@ -165,8 +162,6 @@ while True:
                     machine.make_sandwich(customer, large_recipes["ingredients"])
                 else:  # if unable
                     continue  # returns error message in method
-            else:
-                print("Not enough ingredients!")
 
         case "q":
             print("See you again soon!")
