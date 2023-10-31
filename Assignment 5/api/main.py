@@ -13,6 +13,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+##uvicorn api.main:app --reload
 
 @app.post("/orders/", response_model=schemas.Order, tags=["Orders"])
 def create_order(order: schemas.OrderCreate, db: Session = Depends(get_db)):

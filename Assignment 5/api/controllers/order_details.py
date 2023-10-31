@@ -43,7 +43,7 @@ def update(db: Session, orderDetail_id, orderDetail):
 
 def delete(db: Session, orderDetail_id):
     # Query the database for the specific orderDetail to delete
-    db_orderDetail = db.query(models.Order).filter(models.Order.id == orderDetail_id)
+    db_orderDetail = db.query(models.OrderDetail).filter(models.OrderDetail.id == orderDetail_id)
     # Delete the database record without synchronizing the session
     db_orderDetail.delete(synchronize_session=False)
     # Commit the changes to the database
