@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from .models import models, schemas
 from .controllers import orders
+from .controllers import sandwiches
 from .dependencies.database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
@@ -42,3 +43,8 @@ def delete_one_order(order_id: int, db: Session = Depends(get_db)):
     if order is None:
         raise HTTPException(status_code=404, detail="User not found")
     return orders.delete(db=db, order_id=order_id)
+
+
+@app.post("/sandwiches/", response_model=schemas.Sandwich, tags=["Sandwiches"])
+def create_sandwich(sandwich: schemas.SandwichCreate, db: Session = Depends(get_db)):
+    return sandwiches.create(db=db, sandwich=sandwich)
