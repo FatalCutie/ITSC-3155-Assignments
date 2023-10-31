@@ -182,7 +182,7 @@ def update_one_orderDetail(orderDetail_id: int, orderDetail: schemas.OrderDetail
 
 @app.delete("/orderDetails/{orderDetail_id}", tags=["Order Details"])
 def delete_one_orderDetail(orderDetail_id: int, db: Session = Depends(get_db)):
-    orderDetail = orderDetails.read_one(db, orderDetail_id=orderDetail_id)
+    orderDetail = order_details.read_one(db, orderDetail_id=orderDetail_id)
     if orderDetail is None:
         raise HTTPException(status_code=404, detail="User not found")
     return order_details.delete(db=db, orderDetail_id=orderDetail_id)
